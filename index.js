@@ -3,6 +3,7 @@ import cors from 'cors';
 import bodyParser from 'body-parser';
 
 import submitRoute from './routes/submit.js';
+import submissionsRoute from './routes/submissions.js';  // 👈 Add this
 
 const app = express();
 const PORT = process.env.PORT || 10000;
@@ -10,7 +11,8 @@ const PORT = process.env.PORT || 10000;
 app.use(cors());
 app.use(bodyParser.json());
 
-app.use('/api/submit', submitRoute);
+app.use('/api/submit', submitRoute);         // POST submission
+app.use('/api/submissions', submissionsRoute); // GET dashboard
 
 app.get('/', (req, res) => {
   res.send('Graceful Living API is running');
