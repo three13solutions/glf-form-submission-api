@@ -1,13 +1,14 @@
-const express = require('express');
-const router = express.Router();
-
-router.post('/', async (req, res) => {
-  const formData = req.body;
-
-  console.log('✅ Received Form Submission:');
-  console.log(formData);
-
-  return res.status(200).json({ message: 'Form data received successfully.' });
-});
-
-module.exports = router;
+{
+  "name": "glf-form-submission-api",
+  "version": "1.0.0",
+  "main": "index.js",
+  "type": "commonjs",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "dependencies": {
+    "body-parser": "^1.20.2",
+    "cors": "^2.8.5",
+    "express": "^4.18.2"
+  }
+}
