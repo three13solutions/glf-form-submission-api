@@ -3,7 +3,7 @@ import path from 'path';
 import mime from 'mime-types';
 import fs from 'fs/promises';
 
-import serviceKey from '../glf-service-account.json' assert { type: 'json' };
+const serviceKey = JSON.parse(process.env.GOOGLE_SERVICE_ACCOUNT);
 
 // Authenticate with Google Drive
 const auth = new google.auth.GoogleAuth({
