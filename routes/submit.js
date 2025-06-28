@@ -1,11 +1,9 @@
-const express = require('express');
-const router = express.Router();
-const { MongoClient } = require('mongodb');
+import express from 'express';
+import { MongoClient } from 'mongodb';
 
-// Read MongoDB URI from environment variable
+const router = express.Router();
 const mongoUri = process.env.MONGODB_URI;
 
-// POST /api/submit
 router.post('/', async (req, res) => {
   const formData = req.body;
 
@@ -33,4 +31,4 @@ router.post('/', async (req, res) => {
   }
 });
 
-module.exports = router;
+export default router;
