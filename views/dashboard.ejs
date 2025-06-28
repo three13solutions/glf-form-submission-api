@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>GLF Form Submissions</title>
+  <style>
+    body { font-family: sans-serif; margin: 40px; }
+    table { width: 100%; border-collapse: collapse; }
+    th, td { padding: 8px 12px; border: 1px solid #ccc; text-align: left; }
+    th { background: #244556; color: white; }
+    h1 { color: #244556; }
+  </style>
+</head>
+<body>
+  <h1>Graceful Living Form Submissions</h1>
+  <table>
+    <thead>
+      <tr>
+        <th>Form No</th>
+        <th>Name</th>
+        <th>Phone</th>
+        <th>Email</th>
+        <th>Submission Date</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% submissions.forEach(sub => { %>
+        <tr>
+          <td><%= sub.applicationFormNo %></td>
+          <td><%= sub.firstName %> <%= sub.lastName %></td>
+          <td><%= sub.phoneNumber %></td>
+          <td><%= sub.emailAddress %></td>
+          <td><%= new Date(sub._id.getTimestamp()).toLocaleString() %></td>
+        </tr>
+      <% }) %>
+    </tbody>
+  </table>
+</body>
+</html>
