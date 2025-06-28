@@ -6,6 +6,9 @@ import submitRoute from './routes/submit.js';
 import submissionsRoute from './routes/submissions.js';  // 👈 Add this
 
 const app = express();
+app.set('view engine', 'ejs');
+app.set('views', './views');
+
 const PORT = process.env.PORT || 10000;
 
 app.use(cors());
