@@ -1,35 +1,63 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>GLF Form Submissions</title>
+  <title>GLF Form Dashboard</title>
   <style>
     body { font-family: sans-serif; margin: 40px; }
-    table { width: 100%; border-collapse: collapse; }
-    th, td { padding: 8px 12px; border: 1px solid #ccc; text-align: left; }
-    th { background: #244556; color: white; }
+    table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+    th, td { padding: 10px; border: 1px solid #ccc; vertical-align: top; }
+    th { background-color: #244556; color: white; }
     h1 { color: #244556; }
+    ul { margin: 0; padding-left: 20px; }
   </style>
 </head>
 <body>
-  <h1>Graceful Living Form Submissions</h1>
+  <h1>GLF Form Submissions</h1>
+
   <table>
     <thead>
       <tr>
-        <th>Form No</th>
-        <th>Name</th>
-        <th>Phone</th>
+        <th>Date</th>
+        <th>Text</th>
+        <th>Date Field</th>
+        <th>Select</th>
+        <th>Radio</th>
+        <th>Telephone</th>
         <th>Email</th>
-        <th>Submission Date</th>
+        <th>Textarea</th>
+        <th>Number</th>
+        <th>Checkboxes</th>
+        <th>Single File</th>
+        <th>Multiple Files</th>
       </tr>
     </thead>
     <tbody>
       <% submissions.forEach(sub => { %>
         <tr>
-          <td><%= sub.applicationFormNo %></td>
-          <td><%= sub.firstName %> <%= sub.lastName %></td>
-          <td><%= sub.phoneNumber %></td>
-          <td><%= sub.emailAddress %></td>
           <td><%= new Date(sub._id.getTimestamp()).toLocaleString() %></td>
+          <td><%= sub.textValue || '' %></td>
+          <td><%= sub.dateValue || '' %></td>
+          <td><%= sub.selectValue || '' %></td>
+          <td><%= sub.radioValue || '' %></td>
+          <td><%= sub.telValue || '' %></td>
+          <td><%= sub.emailValue || '' %></td>
+          <td><%= sub.textareaValue || '' %></td>
+          <td><%= sub.numberValue || '' %></td>
+          <td>
+            <ul>
+              <% (sub.checkboxValues || []).forEach(item => { %>
+                <li><%= item %></li>
+              <% }) %>
+            </ul>
+          </td>
+          <td><%= sub.singleFile?.name || '-' %></td>
+          <td>
+            <ul>
+              <% (sub.multipleFiles || []).forEach(file => { %>
+                <li><%= file.name %></li>
+              <% }) %>
+            </ul>
+          </td>
         </tr>
       <% }) %>
     </tbody>
