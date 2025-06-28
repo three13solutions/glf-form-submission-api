@@ -1,9 +1,10 @@
 import express from 'express';
 import cors from 'cors';
 import bodyParser from 'body-parser';
-
 import submitRoute from './routes/submit.js';
 import submissionsRoute from './routes/submissions.js';  // 👈 Add this
+import dashboardRoute from './routes/dashboard.js';
+
 
 const app = express();
 app.set('view engine', 'ejs');
@@ -16,6 +17,7 @@ app.use(bodyParser.json());
 
 app.use('/api/submit', submitRoute);         // POST submission
 app.use('/api/submissions', submissionsRoute); // GET dashboard
+app.use('/dashboard', dashboardRoute);
 
 app.get('/', (req, res) => {
   res.send('Graceful Living API is running');
