@@ -1,6 +1,8 @@
-const express = require('express');
-const cors = require('cors');
-const bodyParser = require('body-parser');
+import express from 'express';
+import cors from 'cors';
+import bodyParser from 'body-parser';
+
+import submitRoute from './routes/submit.js';
 
 const app = express();
 const PORT = process.env.PORT || 10000;
@@ -8,11 +10,8 @@ const PORT = process.env.PORT || 10000;
 app.use(cors());
 app.use(bodyParser.json());
 
-// Routes
-const submitRoute = require('./routes/submit');
 app.use('/api/submit', submitRoute);
 
-// Health check
 app.get('/', (req, res) => {
   res.send('Graceful Living API is running');
 });
