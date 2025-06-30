@@ -39,7 +39,7 @@ export async function uploadFilesToDrive(files, folderId) {
 
     const media = {
       mimeType,
-      body: await fs.readFile(file.path),
+      body: fs.createReadStream(file.path),
     };
 
     const fileMeta = {
