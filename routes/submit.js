@@ -30,7 +30,15 @@ router.post('/', upload.array('documents', 10), async (req, res) => {
     const folderId = await createApplicantFolder(applicantFolderName);
 
     // Upload files to Google Drive subfolder
-    const uploadedUrls = await uploadFilesToDrive(uploadedFiles, folderId);
+const singleFile = uploadedFiles.find(f => f.originalname === req.body.singleFileName);
+const multipleFiles = uploadedFiles.filter(f => f.originalname !== req.body.singleFileName);
+
+// Upload to Drive
+const allUploads = await uploadFilesToDrive(uploadedFiles, folderId);
+
+// Split them again by index if needed
+const singleFileUrl = allUploads.length > 0 ? [allUploads[0]] : [];
+const multipleFileUrls = allUploads.slice(1);
 
     // Save to MongoDB
     const client = new MongoClient(mongoUri);
@@ -39,11 +47,12 @@ router.post('/', upload.array('documents', 10), async (req, res) => {
     const db = client.db('glf_form_db');
     const submissions = db.collection('submissions');
 
-    const result = await submissions.insertOne({
-      ...formData,
-      uploadedDocuments: uploadedUrls,
-      createdAt: new Date(),
-    });
+const result = await submissions.insertOne({
+  ...formData,
+  uploadedSingleFile: singleFileUrl,
+  uploadedMultipleFiles: multipleFileUrls,
+  createdAt: new Date(),
+});
 
     await client.close();
 
