@@ -1,7 +1,7 @@
 import { google } from 'googleapis';
 import path from 'path';
 import mime from 'mime-types';
-import fs from 'fs/promises';
+import fs from 'fs';
 
 const serviceKey = JSON.parse(process.env.GOOGLE_SERVICE_ACCOUNT);
 
