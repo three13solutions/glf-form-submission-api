@@ -58,6 +58,23 @@
               <% }) %>
             </ul>
           </td>
+<td>
+  <ul>
+    <% if (sub.uploadedDocuments && sub.uploadedDocuments.length) { %>
+      <% sub.uploadedDocuments.forEach(doc => { %>
+        <li>
+          <% if (/\.(jpg|jpeg|png|gif)$/i.test(doc.name)) { %>
+            <img src="<%= doc.url %>" alt="<%= doc.name %>" width="80" />
+          <% } else { %>
+            <a href="<%= doc.url %>" target="_blank"><%= doc.name %></a>
+          <% } %>
+        </li>
+      <% }) %>
+    <% } else { %>
+      <li>No Documents</li>
+    <% } %>
+  </ul>
+</td>
         </tr>
       <% }) %>
     </tbody>
