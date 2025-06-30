@@ -50,14 +50,37 @@
               <% }) %>
             </ul>
           </td>
-          <td><%= sub.singleFile?.name || '-' %></td>
           <td>
-            <ul>
-              <% (sub.multipleFiles || []).forEach(file => { %>
-                <li><%= file.name %></li>
-              <% }) %>
-            </ul>
-          </td>
+  <% if (sub.uploadedSingleFile && sub.uploadedSingleFile.length) { %>
+    <% sub.uploadedSingleFile.forEach(doc => { %>
+      <% if (/\.(jpg|jpeg|png|gif)$/i.test(doc.name)) { %>
+        <img src="<%= doc.url %>" alt="<%= doc.name %>" width="80" />
+      <% } else { %>
+        <a href="<%= doc.url %>" target="_blank"><%= doc.name %></a>
+      <% } %>
+    <% }) %>
+  <% } else { %>
+    <span>No Document</span>
+  <% } %>
+</td>
+          <td>
+  <ul>
+    <% if (sub.uploadedMultipleFiles && sub.uploadedMultipleFiles.length) { %>
+      <% sub.uploadedMultipleFiles.forEach(doc => { %>
+        <li>
+          <% if (/\.(jpg|jpeg|png|gif)$/i.test(doc.name)) { %>
+            <img src="<%= doc.url %>" alt="<%= doc.name %>" width="60" />
+          <% } else { %>
+            <a href="<%= doc.url %>" target="_blank"><%= doc.name %></a>
+          <% } %>
+        </li>
+      <% }) %>
+    <% } else { %>
+      <li>No Documents</li>
+    <% } %>
+  </ul>
+</td>
+
 <td>
   <ul>
     <% if (sub.uploadedDocuments && sub.uploadedDocuments.length) { %>
