@@ -64,7 +64,8 @@ export async function uploadFilesToDrive(files, folderId) {
       },
     });
 
-    const publicUrl = `https://drive.google.com/uc?id=${fileId}&export=download`;
+    //const publicUrl = `https://drive.google.com/uc?id=${fileId}&export=download`;
+    const fileUrl = `https://drive.google.com/file/d/${fileId}/view?usp=sharing`;
     uploadedUrls.push({ name: file.originalname, url: publicUrl });
   }
 
