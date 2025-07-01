@@ -56,7 +56,9 @@
             <% if (sub.uploadedSingleFile && sub.uploadedSingleFile.length) { %>
               <% sub.uploadedSingleFile.forEach(doc => { %>
                 <% if (/\.(jpg|jpeg|png|gif)$/i.test(doc.name)) { %>
-                  <img src="<%= doc.url %>" alt="<%= doc.name %>" width="80" />
+                  <a href="<%= doc.url %>" target="_blank">
+  <img src="<%= doc.url %>" alt="<%= doc.name %>" width="80" />
+</a>
                 <% } else { %>
                   <a href="<%= doc.url %>" target="_blank"><%= doc.name %></a>
                 <% } %>
@@ -73,7 +75,10 @@
                 <% sub.uploadedMultipleFiles.forEach(doc => { %>
                   <li>
                     <% if (/\.(jpg|jpeg|png|gif)$/i.test(doc.name)) { %>
-                      <img src="<%= doc.url %>" alt="<%= doc.name %>" width="60" />
+                      <a href="<%= doc.url %>" target="_blank">
+  <img src="<%= doc.url %>" alt="<%= doc.name %>" width="80" />
+</a>
+
                     <% } else { %>
                       <a href="<%= doc.url %>" target="_blank"><%= doc.name %></a>
                     <% } %>
