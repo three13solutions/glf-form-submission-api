@@ -1,24 +1,30 @@
 import express from 'express';
-import { MongoClient } from 'mongodb';
+import { MongoClient, ObjectId } from 'mongodb';
 
 const router = express.Router();
 const mongoUri = process.env.MONGODB_URI;
 
-router.get('/', async (req, res) => {
+router.get('/view/:id', async (req, res) => {
+  const applicantId = req.params.id;
+
   try {
     const client = new MongoClient(mongoUri);
     await client.connect();
 
     const db = client.db('glf_form_db');
     const submissions = db.collection('submissions');
-    const allSubmissions = await submissions.find().sort({ _id: -1 }).toArray();
+    const submission = await submissions.findOne({ _id: new ObjectId(applicantId) });
 
     await client.close();
 
-    res.render('dashboard', { submissions: allSubmissions });
+    if (!submission) {
+      return res.status(404).send('Applicant not found');
+    }
+
+    res.render('viewApplicant', { submission });
   } catch (error) {
-    console.error('❌ Error rendering dashboard:', error);
-    res.status(500).send('Internal Server Error');
+    console.error('❌ Error fetching applicant:', error);
+    res.status(500).send('Internal server error');
   }
 });
 
