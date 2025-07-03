@@ -15,83 +15,32 @@
   <h1>GLF Form Submissions</h1>
 
   <table>
-    <thead>
+<thead>
+    <tr>
+      <th>Form No</th>
+      <th>Date</th>
+      <th>Applicant Name</th>
+      <th>Type of Aid</th>
+      <th>Status</th>
+      <th>View</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% submissions.forEach(sub => { %>
       <tr>
-        <th>Date</th>
-        <th>Text</th>
-        <th>Date Field</th>
-        <th>Select</th>
-        <th>Radio</th>
-        <th>Telephone</th>
-        <th>Email</th>
-        <th>Textarea</th>
-        <th>Number</th>
-        <th>Checkboxes</th>
-        <th>Single File</th>
-        <th>Multiple Files</th>
+        <td><%= sub.applicationFormNo || '-' %></td>
+        <td><%= sub.date || new Date(sub._id.getTimestamp()).toLocaleDateString() %></td>
+        <td><%= [sub.firstName, sub.middleName, sub.lastName].filter(Boolean).join(' ') %></td>
+        <td><%= Array.isArray(sub.typeOfAidRequired) ? sub.typeOfAidRequired.join(', ') : '-' %></td>
+        <td><%= sub.status || 'Pending' %></td>
+        <td>
+          <form action="/dashboard/view/<%= sub._id %>" method="GET">
+            <button type="submit">👁 View</button>
+          </form>
+        </td>
       </tr>
-    </thead>
-    <tbody>
-      <% submissions.forEach(sub => { %>
-        <tr>
-          <td><%= new Date(sub._id.getTimestamp()).toLocaleString() %></td>
-          <td><%= sub.textValue || '' %></td>
-          <td><%= sub.dateValue || '' %></td>
-          <td><%= sub.selectValue || '' %></td>
-          <td><%= sub.radioValue || '' %></td>
-          <td><%= sub.telValue || '' %></td>
-          <td><%= sub.emailValue || '' %></td>
-          <td><%= sub.textareaValue || '' %></td>
-          <td><%= sub.numberValue || '' %></td>
-          <td>
-            <ul>
-              <% (sub.checkboxValues || []).forEach(item => { %>
-                <li><%= item %></li>
-              <% }) %>
-            </ul>
-          </td>
-
-          <!-- Single File -->
-          <td>
-            <% if (sub.uploadedSingleFile && sub.uploadedSingleFile.length) { %>
-              <% sub.uploadedSingleFile.forEach(doc => { %>
-                <% if (/\.(jpg|jpeg|png|gif)$/i.test(doc.name)) { %>
-                  <a href="<%= doc.url %>" target="_blank">
-  <img src="<%= doc.url %>" alt="<%= doc.name %>" width="80" />
-</a>
-                <% } else { %>
-                  <a href="<%= doc.url %>" target="_blank"><%= doc.name %></a>
-                <% } %>
-              <% }) %>
-            <% } else { %>
-              <span>No Document</span>
-            <% } %>
-          </td>
-
-          <!-- Multiple Files -->
-          <td>
-            <ul>
-              <% if (sub.uploadedMultipleFiles && sub.uploadedMultipleFiles.length) { %>
-                <% sub.uploadedMultipleFiles.forEach(doc => { %>
-                  <li>
-                    <% if (/\.(jpg|jpeg|png|gif)$/i.test(doc.name)) { %>
-                      <a href="<%= doc.url %>" target="_blank">
-  <img src="<%= doc.url %>" alt="<%= doc.name %>" width="80" />
-</a>
-
-                    <% } else { %>
-                      <a href="<%= doc.url %>" target="_blank"><%= doc.name %></a>
-                    <% } %>
-                  </li>
-                <% }) %>
-              <% } else { %>
-                <li>No Documents</li>
-              <% } %>
-            </ul>
-          </td>
-        </tr>
-      <% }) %>
-    </tbody>
+    <% }) %>
+  </tbody>
   </table>
 </body>
 </html>
