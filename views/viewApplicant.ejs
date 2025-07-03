@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Applicant Details</title>
+  <style>
+    body { font-family: sans-serif; margin: 40px; }
+    h2 { color: #244556; margin-top: 40px; }
+    .group { display: flex; flex-wrap: wrap; gap: 20px; }
+    .field { width: calc(33% - 20px); margin-bottom: 15px; }
+    .field label { font-weight: bold; display: block; }
+    .files img { max-width: 120px; margin-right: 10px; }
+    .files a { display: block; margin: 5px 0; }
+    .back-btn { margin-top: 30px; display: inline-block; padding: 10px 15px; background: #244556; color: white; text-decoration: none; border-radius: 5px; }
+  </style>
+</head>
+<body>
+
+  <h1>Applicant: <%= submission.firstName %> <%= submission.middleName %> <%= submission.lastName %></h1>
+
+  <h2>📇 Personal Information</h2>
+  <div class="group">
+    <div class="field"><label>Form No</label><%= submission.applicationFormNo %></div>
+    <div class="field"><label>Date</label><%= submission.date %></div>
+    <div class="field"><label>Date of Birth</label><%= submission.dateOfBirth %></div>
+    <div class="field"><label>Gender</label><%= submission.gender %></div>
+    <div class="field"><label>Marital Status</label><%= submission.maritalStatus %></div>
+    <div class="field"><label>Nationality</label><%= submission.nationality %></div>
+    <div class="field"><label>PAN</label><%= submission.pan %></div>
+    <div class="field"><label>Aadhaar</label><%= submission.aadhaarNumber %></div>
+  </div>
+
+  <h2>📞 Contact Information</h2>
+  <div class="group">
+    <div class="field"><label>Email</label><%= submission.emailAddress %></div>
+    <div class="field"><label>Phone</label><%= submission.phoneNumber %></div>
+    <div class="field"><label>Alternate Phone</label><%= submission.alternatePhoneNumber %></div>
+    <div class="field"><label>Address</label><%= submission.address %>, <%= submission.city %> - <%= submission.zipCode %>, <%= submission.state %>, <%= submission.country %></div>
+  </div>
+
+  <h2>💰 Financial Details</h2>
+  <div class="group">
+    <div class="field"><label>Employment Status</label><%= submission.employmentStatus %></div>
+    <div class="field"><label>Monthly Income</label><%= submission.monthlyIncome %></div>
+    <div class="field"><label>Monthly Expenses</label><%= submission.monthlyExpense %></div>
+    <div class="field"><label>Income Breakdown</label><%= submission.monthlyIncomeDetails %></div>
+    <div class="field"><label>Expense Breakdown</label><%= submission.monthlyExpensesDetails %></div>
+    <div class="field"><label>Existing Debts</label><%= submission.existingDebts %></div>
+    <div class="field"><label>Have Credit Card</label><%= submission.haveCreditCard %></div>
+    <div class="field"><label>File ITR?</label><%= submission.fileITReturn %></div>
+    <div class="field"><label>Permission to Pull CIBIL</label><%= submission.cibilPermission %></div>
+  </div>
+
+  <h2>🎯 Aid Details</h2>
+  <div class="group">
+    <div class="field"><label>Type of Aid</label><%= Array.isArray(submission.typeOfAidRequired) ? submission.typeOfAidRequired.join(', ') : submission.typeOfAidRequired %></div>
+    <div class="field"><label>Amount Required</label><%= submission.totalAmountRequired %></div>
+    <div class="field"><label>Other Aids Received?</label><%= submission.receivedAidFromOtherTrust %></div>
+    <div class="field"><label>Other Aid Details</label><%= submission.otherAidDetails %></div>
+    <div class="field"><label>Total Other Aid</label><%= submission.totalOtherAidsAmount %></div>
+    <div class="field"><label>Self Contribution</label><%= submission.totalSelfContribution %></div>
+    <div class="field"><label>Aid Purpose</label><%= submission.purposeOfFinancialAid || submission.purposeOfMedicalAid %></div>
+    <div class="field"><label>Hospital</label><%= submission.hospitalName %></div>
+    <div class="field"><label>Doctor</label><%= submission.doctorName %></div>
+    <div class="field"><label>Treatment</label><%= submission.treatmentTypeDetails %></div>
+    <div class="field"><label>Estimate</label><%= submission.treatmentEstimate %></div>
+  </div>
+
+  <h2>🏦 Bank & Payment Info</h2>
+  <div class="group">
+    <div class="field"><label>Preferred Payment Mode</label><%= submission.preferredPaymentMethod %></div>
+    <div class="field"><label>Bank Name</label><%= submission.bankName %></div>
+    <div class="field"><label>Branch</label><%= submission.bankBranch %></div>
+    <div class="field"><label>Account Holder</label><%= submission.accountName %></div>
+    <div class="field"><label>Account No</label><%= submission.accountNumber %></div>
+    <div class="field"><label>IFSC Code</label><%= submission.ifscCode %></div>
+  </div>
+
+  <h2>🖊 Declaration</h2>
+  <div class="group">
+    <div class="field"><label>Applicant Signature</label><%= submission.applicantSignature %></div>
+    <div class="field"><label>Declaration Items</label>
+      <ul>
+        <% (submission.declarationChecks || []).forEach(item => { %>
+          <li><%= item %></li>
+        <% }) %>
+      </ul>
+    </div>
+  </div>
+
+  <h2>📎 Uploaded Files</h2>
+  <div class="group files">
+    <% if (submission.uploadedSingleFile && submission.uploadedSingleFile.length) { %>
+      <div class="field"><label>Photo / ID:</label>
+        <% submission.uploadedSingleFile.forEach(file => { %>
+          <a href="<%= file.url %>" target="_blank"><%= file.name %></a>
+        <% }) %>
+      </div>
+    <% } %>
+    <% if (submission.uploadedMultipleFiles && submission.uploadedMultipleFiles.length) { %>
+      <div class="field"><label>Other Documents:</label>
+        <% submission.uploadedMultipleFiles.forEach(file => { %>
+          <a href="<%= file.url %>" target="_blank"><%= file.name %></a>
+        <% }) %>
+      </div>
+    <% } %>
+  </div>
+
+  <a class="back-btn" href="/dashboard">← Back to Dashboard</a>
+</body>
+</html>
